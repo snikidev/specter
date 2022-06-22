@@ -59,6 +59,8 @@ const CompaniesTable = () => {
     setDrawerIsOpen(false);
   };
 
+  // TODO: use MUI type of data
+  // @ts-ignore
   const handleRowClick = ({ row }) => {
     setActiveCompany(row);
     setDrawerIsOpen(true);
