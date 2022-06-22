@@ -1,21 +1,11 @@
-import * as React from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import React, { ComponentProps } from "react";
+import { DataGrid } from "@mui/x-data-grid";
 import { LIMIT } from "consts";
 
-interface Props {
-  columns: GridColDef[];
-  rows: Array<any>;
-}
-
-const BasicTable = ({ columns, rows }: Props) => {
+const BasicTable = (props: ComponentProps<typeof DataGrid>) => {
   return (
     <div className="h-[500px] w-full">
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={LIMIT}
-        rowsPerPageOptions={[LIMIT]}
-      />
+      <DataGrid pageSize={LIMIT} rowsPerPageOptions={[LIMIT]} {...props} />
     </div>
   );
 };

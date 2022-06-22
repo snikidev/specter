@@ -1,43 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { Container, Table } from "components";
-
-const columns = [
-  { field: "rank", headerName: "Rank", width: 10 },
-  { field: "name", headerName: "Company Name", width: 150 },
-  { field: "website", headerName: "Website", width: 10 },
-  { field: "founded", headerName: "Founded Date", width: 130 },
-  { field: "industry", headerName: "Industry", width: 130 },
-  {
-    field: "totalFundingAmount",
-    headerName: "Total Funding Amount (in USD)",
-    width: 220,
-  },
-  { field: "lastFundingType", headerName: "Last Funding Type", width: 150 },
-  { field: "numInvestors", headerName: "Number of Investors", width: 150 },
-  { field: "companySize", headerName: "Company Size", width: 150 },
-];
-
-const rows = [
-  {
-    id: 1,
-    rank: 1,
-    name: "Carbon Health",
-    // TODO: render external click icon
-    website: "http://carbonhealth.com",
-    founded: 2015,
-    industry: "Medical Practice",
-    // TODO: Number
-    totalFundingAmount: 172500000,
-    lastFundingType: "Series C",
-    numInvestors: 17,
-    companySize: "201-500 employees",
-  },
-];
+import { CompaniesTable, Container } from "components";
 
 const Home: NextPage = () => {
-  // TODO: Fetch rows from the api
   return (
     <div>
       <Head>
@@ -51,8 +17,7 @@ const Home: NextPage = () => {
           <h1 className="text-2xl font-bold text-center mb-8 text-gray-700">
             Companies
           </h1>
-          {/* TODO: onRowClick to display a modal */}
-          <Table columns={columns} rows={rows} />
+          <CompaniesTable />
         </Container>
       </main>
 
