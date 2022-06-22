@@ -1,12 +1,14 @@
 import React, { useMemo, useState } from "react";
+
 import { useQuery } from "react-query";
 import { GridColDef } from "@mui/x-data-grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import Snackbar from "@mui/material/Snackbar";
 
-import { Table, ExternalIcon, Number } from "components";
+import { Table, Number, Link } from "components";
 import { fetchCompanies } from "api";
 import Alert from "./Alert";
+import Drawer from "./Drawer";
 
 const columns: GridColDef[] = [
   { field: "Rank", headerName: "Rank", width: 80 },
@@ -30,16 +32,14 @@ const columns: GridColDef[] = [
     field: "Website",
     headerName: "Website",
     width: 80,
-    renderCell: ({ value }) => (
-      <a href={value} target="_blank" rel="noreferrer">
-        <ExternalIcon />
-      </a>
-    ),
+    renderCell: ({ value }) => <Link href={value} />,
   },
 ];
 
 const CompaniesTable = () => {
   const [error, setError] = useState(false);
+  const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+  const [activeCompany, setActiveCompany] = useState(null);
   // TODO: custom pagination with custom query name, e.g. companies-page-1
   const { isLoading, data = [] } = useQuery("companies", fetchCompanies, {
     onError: () => {
@@ -54,6 +54,16 @@ const CompaniesTable = () => {
     [data]
   );
 
+  const handleDrawerClose = () => {
+    setActiveCompany(null);
+    setDrawerIsOpen(false);
+  };
+
+  const handleRowClick = ({ row }) => {
+    setActiveCompany(row);
+    setDrawerIsOpen(true);
+  };
+
   return (
     <>
       <Table
@@ -63,6 +73,7 @@ const CompaniesTable = () => {
           LoadingOverlay: LinearProgress,
         }}
         loading={isLoading}
+        onRowClick={handleRowClick}
       />
       <Snackbar open={error} autoHideDuration={600}>
         <Alert severity="error">
@@ -70,6 +81,11 @@ const CompaniesTable = () => {
           reloading the page.
         </Alert>
       </Snackbar>
+      <Drawer
+        activeCompany={activeCompany}
+        open={drawerIsOpen}
+        onClose={handleDrawerClose}
+      />
       {/* TODO: onRowClick to display a modal */}
     </>
   );
